@@ -2,8 +2,8 @@ import 'package:country_pickers/country.dart';
 import 'package:country_pickers/utils/typedefs.dart';
 
 import 'package:country_pickers/utils/my_alert_dialog.dart';
+import 'package:country_pickers/utils/utils.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/foundation.dart';
 import 'countries.dart';
 
 ///Provides a customizable [Dialog] which displays all countries
@@ -61,6 +61,8 @@ class CountryPickerDialog extends StatefulWidget {
   ///Widget to build list view item inside dialog
   final ItemBuilder? itemBuilder;
 
+  final bool showFlagWithText;
+
   /// The (optional) horizontal separator used between title, content and
   /// actions.
   ///
@@ -112,6 +114,7 @@ class CountryPickerDialog extends StatefulWidget {
     this.searchCursorColor,
     this.searchEmptyView,
     this.searchFilter,
+    this.showFlagWithText = false,
   }) : super(key: key);
 
   @override
@@ -165,7 +168,17 @@ class SingleChoiceDialogState extends State<CountryPickerDialog> {
                 .map((item) => SimpleDialogOption(
                       child: widget.itemBuilder != null
                           ? widget.itemBuilder!(item)
-                          : Text(item.name),
+                          : widget.showFlagWithText
+                              ? Row(
+                                  children: <Widget>[
+                                    CountryPickerUtils.getDefaultFlagImage(
+                                      item,
+                                    ),
+                                    const SizedBox(width: 8),
+                                    Flexible(child: Text(item.name)),
+                                  ],
+                                )
+                              : Text(item.name),
                       onPressed: () {
                         widget.onValuePicked(item);
                         if (widget.popOnPick) {
