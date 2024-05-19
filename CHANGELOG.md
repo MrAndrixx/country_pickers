@@ -1,3 +1,6 @@
+## [3.0.0] - 03/13/2021
+* Fix Theme error
+
 ## [2.0.0] - 03/13/2021
 
 * Null-safety is added
